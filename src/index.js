@@ -1,16 +1,16 @@
-import express from "express";
-import cors from "cors";
 import { config } from "dotenv";
 import connectDB from "./db/index.js";
+import { app } from "./app.js";
 config();
 
 const port = process.env.PORT || 4000;
-const app = express();
-app.use(express.json());
-app.use(cors());
 
-await connectDB();
-
-app.listen(port, () => {
-  console.log(`Server running on port:${port}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Db connected on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.log(`MongoDb connection failed !!!`, err);
+  });
