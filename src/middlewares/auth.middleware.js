@@ -26,6 +26,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.log("Middleware Error :", error.message);
     throw new ApiError(401, error?.message || "Unauthorized access token");
   }
 });
