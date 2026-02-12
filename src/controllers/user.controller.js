@@ -142,6 +142,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     req.user._id,
     {
       $set: {
+        //$unset: {refreshToken: 1} --> alternative way to delete the token from db
         refreshToken: undefined,
       },
     },
