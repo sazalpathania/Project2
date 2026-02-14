@@ -1,6 +1,10 @@
 import express from "express";
-import { upload } from "../middlewares/multer.middleware";
-import { publishVideo } from "../controllers/video.controller";
+import { upload } from "../middlewares/multer.middleware.js";
+import {
+  getVideoById,
+  publishVideo,
+  updateVideoDetails,
+} from "../controllers/video.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const videoRouter = express();
@@ -10,13 +14,18 @@ videoRouter.post(
   verifyJWT,
   upload.fields([
     {
-      name: videoFile,
+      name: "videoFile",
       maxCount: 1,
     },
     {
-      name: thumbnail,
+      name: "thumbnail",
       maxCount: 1,
     },
   ]),
   publishVideo
 );
+
+videoRouter.get("/:videoId", verifyJWT, getVideoById);
+videoRouter.patch("/:videoId", verifyJWT, updateVideoDetails);
+
+export default videoRouter;
